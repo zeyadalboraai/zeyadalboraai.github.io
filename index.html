@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zeyad Al-Boraai — Cybersecurity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0f14;
+    --surface:#121821;
+    --surface-2:#161d27;
+    --border:#232b36;
+    --text:#dbe2e8;
+    --text-dim:#7c8896;
+    --amber:#e3a44c;
+    --cyan:#5fd6c5;
+    --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *{box-sizing:inherit;}
+  html,body{background:var(--bg);}
+  body{
+    margin:0;
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(95,214,197,0.35);}
+  a:hover{border-bottom-color:var(--cyan);}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+
+  /* ---- Nav ---- */
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:20px 0;font-family:var(--mono);font-size:14px;color:var(--text-dim);
+  }
+  nav .id{color:var(--text);}
+  nav a{border-bottom:none;color:var(--text-dim);margin-left:18px;}
+  nav a:hover{color:var(--cyan);}
+
+  /* ---- Hero / terminal ---- */
+  header.hero{padding:40px 0 60px;}
+  .terminal{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .terminal .bar{
+    display:flex;gap:7px;align-items:center;
+    padding:10px 14px;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .terminal .dot{width:10px;height:10px;border-radius:50%;background:#3a4351;}
+  .terminal .body{
+    padding:22px 20px 26px;
+    font-family:var(--mono);
+    font-size:14px;
+    min-height:150px;
+  }
+  .terminal .prompt{color:var(--cyan);}
+  .terminal .line{white-space:pre-wrap;color:var(--text);margin:0 0 2px;}
+  .terminal .out{color:var(--text-dim);margin:0 0 14px;}
+  .cursor{display:inline-block;width:7px;height:15px;background:var(--amber);vertical-align:-2px;animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  .role{
+    margin-top:24px;font-family:var(--mono);font-size:14px;color:var(--amber);
+  }
+  h1{
+    font-family:var(--mono);
+    font-size:clamp(28px,5vw,40px);
+    line-height:1.25;
+    margin:10px 0 14px;
+    font-weight:700;
+  }
+  .lede{font-size:17px;color:var(--text-dim);max-width:56ch;margin:0 0 26px;}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono);font-size:13.5px;
+    padding:10px 16px;border-radius:6px;border:1px solid var(--border);
+    color:var(--text);border-bottom:1px solid var(--border);
+  }
+  .btn.primary{background:var(--amber);color:#1a1206;border-color:var(--amber);font-weight:700;}
+  .btn.primary:hover{background:#eeb264;}
+  .btn:not(.primary):hover{border-color:var(--cyan);color:var(--cyan);}
+
+  /* ---- Section scaffolding ---- */
+  section{padding:52px 0;border-top:1px solid var(--border);}
+  .tag{font-family:var(--mono);font-size:13px;color:var(--text-dim);margin:0 0 8px;}
+  .tag .n{color:var(--amber);}
+  h2{font-family:var(--mono);font-size:22px;margin:0 0 20px;font-weight:700;}
+  p{margin:0 0 14px;color:var(--text);}
+  .dim{color:var(--text-dim);}
+
+  /* ---- Scan / skills table ---- */
+  .scan{
+    font-family:var(--mono);font-size:13.5px;
+    background:var(--surface);border:1px solid var(--border);border-radius:8px;
+    overflow:hidden;
+  }
+  .scan .row{
+    display:grid;grid-template-columns:1fr 90px 1fr;gap:10px;
+    padding:10px 16px;border-bottom:1px solid var(--border);
+  }
+  .scan .row:last-child{border-bottom:none;}
+  .scan .row.head{color:var(--text-dim);background:var(--surface-2);}
+  .scan .state{color:var(--cyan);}
+  .scan .tool{color:var(--text);}
+  .scan .cat{color:var(--text-dim);}
+
+  /* ---- Case files (projects) ---- */
+  .case{
+    border:1px solid var(--border);border-radius:8px;background:var(--surface);
+    padding:22px 22px 20px;margin-bottom:16px;
+  }
+  .case-head{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+    margin-bottom:8px;flex-wrap:wrap;
+  }
+  .case-id{font-family:var(--mono);font-size:12.5px;color:var(--amber);}
+  .case h3{font-family:var(--mono);font-size:17px;margin:0;color:var(--text);}
+  .case p{font-size:15px;color:var(--text-dim);}
+  .stack{
+    display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;
+  }
+  .stack span{
+    font-family:var(--mono);font-size:11.5px;color:var(--cyan);
+    border:1px solid rgba(95,214,197,0.3);border-radius:4px;padding:3px 8px;
+  }
+
+  /* ---- Education list ---- */
+  .edu-row{
+    display:flex;justify-content:space-between;gap:16px;
+    padding:14px 0;border-bottom:1px solid var(--border);
+  }
+  .edu-row:last-child{border-bottom:none;}
+  .edu-row .what{font-size:15px;}
+  .edu-row .where{font-family:var(--mono);font-size:12.5px;color:var(--text-dim);text-align:right;white-space:nowrap;}
+
+  footer{padding:40px 0 60px;text-align:left;}
+  footer .foot-row{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    font-family:var(--mono);font-size:13px;color:var(--text-dim);
+  }
+
+  @media (max-width:520px){
+    .scan .row{grid-template-columns:1fr 74px;}
+    .scan .cat{display:none;}
+    .edu-row{flex-direction:column;}
+    .edu-row .where{text-align:left;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .cursor{animation:none;opacity:1;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <span class="id">zeyad@sec</span>
+    <span>
+      <a href="#work">work</a>
+      <a href="#skills">skills</a>
+      <a href="#contact">contact</a>
+    </span>
+  </nav>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="terminal">
+      <div class="bar">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="body" id="termBody">
+        <p class="line"><span class="prompt">$</span> whoami</p>
+        <p class="out">Zeyad Al-Boraai — Cybersecurity CS student, ECU</p>
+        <p class="line"><span class="prompt">$</span> cat focus.txt</p>
+        <p class="out" style="margin-bottom:0;">Penetration testing · Insider-threat detection · Applied security tooling <span class="cursor"></span></p>
+      </div>
+    </div>
+
+    <p class="role">Cybersecurity CS Student &amp; Aspiring Penetration Tester</p>
+    <h1>I break systems on purpose, then design what would have caught me.</h1>
+    <p class="lede">Cybersecurity-focused Computer Science student at Egyptian Chinese University and the DEPI Cybersecurity Track, splitting time between offensive security labs and building the detection systems that watch for the same tricks from the other side.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="mailto:zeyad.alboraai@gmail.com">Email me</a>
+      <a class="btn" href="https://www.linkedin.com/in/zeyad-alboraai-1aaa14411" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <p class="tag"><span class="n">$</span> cat about.md</p>
+    <h2>About</h2>
+    <p>I'm a Cybersecurity-focused Computer Science student at the Egyptian Chinese University, currently completing the Digital Egypt Pioneers Initiative (DEPI) Cybersecurity Track. Most of my work sits at the intersection of two things: finding how a system fails, and building the tooling that notices when someone else tries the same thing.</p>
+    <p class="dim">That shows up as penetration-testing labs on one side — recon, exploitation, reporting — and behavioral anomaly detection on the other, through my graduation thesis on insider-threat detection. I like problems that force me to think like both the attacker and the analyst reading the alert.</p>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <p class="tag"><span class="n">$</span> nmap -sV zeyad --tools</p>
+    <h2>Tooling</h2>
+    <div class="scan">
+      <div class="row head"><div>TOOL</div><div>STATE</div><div>CATEGORY</div></div>
+      <div class="row"><div class="tool">Metasploit</div><div class="state">active</div><div class="cat">Exploitation</div></div>
+      <div class="row"><div class="tool">Burp Suite / SQLmap</div><div class="state">active</div><div class="cat">Web app testing</div></div>
+      <div class="row"><div class="tool">Nmap / Wireshark</div><div class="state">active</div><div class="cat">Recon &amp; analysis</div></div>
+      <div class="row"><div class="tool">Fail2ban / Wazuh</div><div class="state">active</div><div class="cat">Defense &amp; monitoring</div></div>
+      <div class="row"><div class="tool">Kali Linux / VMware / Docker</div><div class="state">active</div><div class="cat">Lab environment</div></div>
+      <div class="row"><div class="tool">Python, Flask, PostgreSQL</div><div class="state">active</div><div class="cat">Detection engineering</div></div>
+      <div class="row"><div class="tool">Scikit-learn / PyTorch</div><div class="state">active</div><div class="cat">Anomaly modeling</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <p class="tag"><span class="n">$</span> ls -la cases/</p>
+    <h2>Selected work</h2>
+
+    <div class="case">
+      <div class="case-head">
+        <h3>CyberDNA — Insider Threat Detection System</h3>
+        <span class="case-id">CASE-01 / thesis</span>
+      </div>
+      <p>Graduation thesis project modeling insider threats through behavioral fingerprinting. My sections cover the technical architecture and cybersecurity components: an event pipeline that encodes user activity into sequences, an autoencoder-based detection engine, and a risk-scoring layer that feeds an explainable, real-time dashboard — trained against the CERT insider-threat dataset.</p>
+      <div class="stack">
+        <span>Python / Flask</span><span>PostgreSQL (JSONB)</span><span>PyTorch (LSTM/GRU)</span><span>Scikit-learn</span><span>Wazuh</span><span>Docker Compose</span>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-head">
+        <h3>BioVault — Biometric-First Privileged Access</h3>
+        <span class="case-id">CASE-02 / design</span>
+      </div>
+      <p>A privileged access management concept where employees authenticate with biometrics but never see the underlying credentials — the vault handles checkout, session monitoring, and audit logging on their behalf. Grounded in NIST SP 800-63 and WebAuthn/FIDO2, and shaped directly by analyzing the Verkada breach rather than working from theory.</p>
+      <div class="stack">
+        <span>PAM design</span><span>WebAuthn / FIDO2</span><span>NIST SP 800-63</span>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-head">
+        <h3>SQL Injection &amp; SSH Hardening Labs</h3>
+        <span class="case-id">CASE-03 / lab</span>
+      </div>
+      <p>Exploited UNION-based SQL injection and enumerated an Oracle database on Web Security Academy targets using Burp Suite and SQLmap. Separately, ran an SSH brute-force attack with Metasploit's <code>ssh_login</code> module against an Ubuntu server, then hardened it with Fail2ban and sshd_config changes — full recon-to-remediation loop, documented end to end.</p>
+      <div class="stack">
+        <span>Burp Suite</span><span>SQLmap</span><span>Metasploit</span><span>Fail2ban</span>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-head">
+        <h3>CTF &amp; Cryptanalysis</h3>
+        <span class="case-id">CASE-04 / competition</span>
+      </div>
+      <p>Competitive CTF work solving a columnar transposition cipher, decrypting S-DES using a Diffie–Hellman-derived key, and tracing attacker activity through packet captures in Wireshark — backed by coursework in block cipher modes and digital signature schemes (RSA-PSS, ECDSA, Schnorr).</p>
+      <div class="stack">
+        <span>Cryptanalysis</span><span>Wireshark</span><span>Applied crypto</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <p class="tag"><span class="n">$</span> cat education.log</p>
+    <h2>Education &amp; certifications</h2>
+    <div class="edu-row">
+      <div class="what">B.Sc. Computer Science, Cybersecurity focus</div>
+      <div class="where">Egyptian Chinese University</div>
+    </div>
+    <div class="edu-row">
+      <div class="what">Cybersecurity Track</div>
+      <div class="where">Digital Egypt Pioneers Initiative (DEPI)</div>
+    </div>
+    <div class="edu-row">
+      <div class="what">Full Stack Python Certification</div>
+      <div class="where">ITI</div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <p class="tag"><span class="n">$</span> cat contact.txt</p>
+    <h2>Get in touch</h2>
+    <p class="dim">Open to internships and collaboration in offensive security and threat detection.</p>
+    <div class="foot-row">
+      <span>zeyad.alboraai@gmail.com</span>
+      <span><a href="https://www.linkedin.com/in/zeyad-alboraai-1aaa14411" target="_blank" rel="noopener">linkedin.com/in/zeyad-alboraai</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Blinking cursor already handled in CSS; this just guards against
+  // any future dynamic content without touching browser storage.
+</script>
+</body>
+</html>
